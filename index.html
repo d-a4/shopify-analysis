@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de Scripts Vidéo - Shopify</title>
     <style>
-        /* Reset et styles de base */
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +28,6 @@
             overflow: hidden;
         }
 
-        /* Header */
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -47,7 +45,6 @@
             opacity: 0.9;
         }
 
-        /* Form */
         form {
             padding: 40px 30px;
         }
@@ -90,6 +87,54 @@
             margin-top: 8px;
             color: #666;
             font-size: 0.9rem;
+        }
+
+        /* Radio buttons */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .radio-label {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .radio-label strong {
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .radio-label small {
+            margin-top: 0;
+            font-size: 0.85rem;
         }
 
         /* Checkbox grid */
@@ -149,7 +194,6 @@
             margin-top: 15px;
         }
 
-        /* Submit button */
         .submit-btn {
             width: 100%;
             padding: 16px 24px;
@@ -186,7 +230,6 @@
             font-size: 1.3rem;
         }
 
-        /* Status messages */
         .status-message {
             margin-top: 20px;
             padding: 15px;
@@ -218,7 +261,6 @@
             border: 1px solid #ffeaa7;
         }
 
-        /* Footer */
         footer {
             background: #f8f9fa;
             padding: 20px 30px;
@@ -228,7 +270,6 @@
             border-top: 1px solid #e0e0e0;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
@@ -266,6 +307,32 @@
                     required
                 >
                 <small>Copiez l'URL complète du produit depuis votre boutique Shopify</small>
+            </div>
+
+            <!-- Format publicitaire -->
+            <div class="form-group">
+                <label>
+                    <span class="label-icon">🎨</span>
+                    Format publicitaire
+                </label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="ad_format" value="video" checked>
+                        <span class="radio-label">
+                            <strong>📹 Vidéo</strong>
+                            <small>Script pour publicité vidéo (TikTok, Reels, YouTube)</small>
+                        </span>
+                    </label>
+
+                    <label class="radio-item">
+                        <input type="radio" name="ad_format" value="image">
+                        <span class="radio-label">
+                            <strong>📸 Image statique</strong>
+                            <small>Texte pour publicité image (Facebook, Instagram)</small>
+                        </span>
+                    </label>
+                </div>
+                <small>Choisissez le format de votre publicité</small>
             </div>
 
             <!-- Angle marketing -->
@@ -379,17 +446,16 @@
     </div>
 
     <script>
-        // ⚠️ CHANGE CETTE URL PAR TON VRAI WEBHOOK N8N
+        // ⚠️ TON URL WEBHOOK DE PRODUCTION
         const WEBHOOK_URL = 'https://c4sh.app.n8n.cloud/webhook/shopify-analysis';
 
-        // Sélection des éléments
         const form = document.getElementById('analysis-form');
         const submitBtn = document.getElementById('submit-btn');
         const statusMessage = document.getElementById('status-message');
         const scriptCountDisplay = document.getElementById('script-count');
         const checkboxes = document.querySelectorAll('input[name="script_types"]');
 
-        // Mise à jour du compteur de scripts en temps réel
+        // Mise à jour du compteur de scripts
         function updateScriptCount() {
             const checkedCount = document.querySelectorAll('input[name="script_types"]:checked').length;
             
@@ -405,63 +471,54 @@
             }
         }
 
-        // Écouteur pour mettre à jour le compteur
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateScriptCount);
         });
 
-        // Fonction pour afficher un message de statut
         function showStatus(message, type) {
             statusMessage.textContent = message;
             statusMessage.className = 'status-message show ' + type;
         }
 
-        // Fonction pour cacher le message de statut
         function hideStatus() {
             statusMessage.className = 'status-message';
         }
 
-        // Gestion de la soumission du formulaire
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Récupère l'URL du produit
             const productUrl = document.getElementById('shopify_url').value.trim();
-            
-            // Récupère l'angle marketing
             const marketingAngle = document.getElementById('marketing_angle').value;
             
-            // Récupère les types de scripts cochés (en ARRAY!)
+            // Récupère le format publicitaire
+            const adFormat = document.querySelector('input[name="ad_format"]:checked').value;
+            
+            // Récupère les types de scripts
             const scriptTypes = Array.from(
                 document.querySelectorAll('input[name="script_types"]:checked')
             ).map(cb => cb.value);
             
-            // Validation: au moins 1 script doit être sélectionné
             if (scriptTypes.length === 0) {
                 showStatus('❌ Veuillez sélectionner au moins 1 type de script', 'error');
                 return;
             }
             
-            // Compte le nombre de scripts
             const scriptCount = scriptTypes.length;
             
-            // Prépare les données à envoyer
             const data = {
                 productUrl: productUrl,
                 marketingAngle: marketingAngle,
-                scriptTypes: scriptTypes,  // ARRAY, pas objet!
-                scriptCount: scriptCount
+                scriptTypes: scriptTypes,
+                scriptCount: scriptCount,
+                adFormat: adFormat  // NOUVEAU
             };
             
-            // Debug dans la console
             console.log('📤 Données envoyées au webhook:', data);
             
-            // Désactive le bouton pendant l'envoi
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Génération en cours...';
             showStatus('⏳ Analyse en cours... Cela peut prendre 30-60 secondes.', 'loading');
             
-            // Envoie les données au webhook N8N
             try {
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
@@ -475,7 +532,6 @@
                     showStatus('✅ Scripts générés avec succès! Consultez votre email.', 'success');
                     console.log('✅ Réponse du webhook:', await response.text());
                     
-                    // Reset le formulaire après 3 secondes
                     setTimeout(() => {
                         form.reset();
                         updateScriptCount();
@@ -489,13 +545,11 @@
                 console.error('❌ Erreur:', error);
                 showStatus('❌ Erreur lors de la génération. Veuillez réessayer.', 'error');
             } finally {
-                // Réactive le bouton
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span class="btn-icon">🚀</span> Générer les scripts';
             }
         });
 
-        // Initialise le compteur au chargement
         updateScriptCount();
     </script>
 </body>
