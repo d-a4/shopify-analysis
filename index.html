@@ -66,6 +66,7 @@
         }
 
         input[type="url"],
+        input[type="text"],
         select {
             width: 100%;
             padding: 12px 16px;
@@ -76,6 +77,7 @@
         }
 
         input[type="url"]:focus,
+        input[type="text"]:focus,
         select:focus {
             outline: none;
             border-color: #667eea;
@@ -89,7 +91,6 @@
             font-size: 0.9rem;
         }
 
-        /* Radio buttons */
         .radio-group {
             display: flex;
             flex-direction: column;
@@ -137,7 +138,6 @@
             font-size: 0.85rem;
         }
 
-        /* Checkbox grid */
         .checkbox-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -293,7 +293,6 @@
         </header>
 
         <form id="analysis-form">
-            <!-- URL du produit Shopify -->
             <div class="form-group">
                 <label for="shopify_url">
                     <span class="label-icon">🔗</span>
@@ -309,7 +308,6 @@
                 <small>Copiez l'URL complète du produit depuis votre boutique Shopify</small>
             </div>
 
-            <!-- Format publicitaire -->
             <div class="form-group">
                 <label>
                     <span class="label-icon">🎨</span>
@@ -335,28 +333,22 @@
                 <small>Choisissez le format de votre publicité</small>
             </div>
 
-            <!-- Angle marketing -->
             <div class="form-group">
                 <label for="marketing_angle">
                     <span class="label-icon">🎯</span>
-                    Angle marketing
+                    Angle marketing personnalisé
                 </label>
-                <select id="marketing_angle" name="marketing_angle" required>
-                    <option value="">-- Sélectionnez un angle --</option>
-                    <option value="problem_solution">💡 Problème → Solution</option>
-                    <option value="lifestyle">✨ Style de vie / Aspiration</option>
-                    <option value="social_proof">👥 Preuve sociale / Témoignages</option>
-                    <option value="features_benefits">⚙️ Caractéristiques → Bénéfices</option>
-                    <option value="urgency_scarcity">⏰ Urgence / Rareté</option>
-                    <option value="comparison">⚖️ Comparaison avec alternatives</option>
-                    <option value="education">📚 Éducatif / Comment faire</option>
-                    <option value="transformation">🦋 Transformation / Avant-Après</option>
-                    <option value="storytelling">📖 Storytelling émotionnel</option>
-                </select>
-                <small>Choisissez l'angle principal pour orienter vos scripts</small>
+                <input 
+                    type="text" 
+                    id="marketing_angle" 
+                    name="marketing_angle"
+                    placeholder="Ex: Soulager l'arthrose du genou sans chirurgie"
+                    required
+                    maxlength="200"
+                >
+                <small>Décrivez l'angle marketing spécifique que vous souhaitez (max 200 caractères)</small>
             </div>
 
-            <!-- Types de scripts -->
             <div class="form-group">
                 <label>
                     <span class="label-icon">📝</span>
@@ -430,13 +422,11 @@
                 <small id="script-count">Aucun script sélectionné</small>
             </div>
 
-            <!-- Bouton submit -->
             <button type="submit" id="submit-btn" class="submit-btn">
                 <span class="btn-icon">🚀</span>
                 Générer les scripts
             </button>
 
-            <!-- Message de statut -->
             <div id="status-message" class="status-message"></div>
         </form>
 
@@ -446,7 +436,7 @@
     </div>
 
     <script>
-        // ⚠️ TON URL WEBHOOK DE PRODUCTION
+        // ✅ TON WEBHOOK URL (DÉJÀ CONFIGURÉ)
         const WEBHOOK_URL = 'https://c4sh.app.n8n.cloud/webhook/shopify-analysis';
 
         const form = document.getElementById('analysis-form');
@@ -455,7 +445,6 @@
         const scriptCountDisplay = document.getElementById('script-count');
         const checkboxes = document.querySelectorAll('input[name="script_types"]');
 
-        // Mise à jour du compteur de scripts
         function updateScriptCount() {
             const checkedCount = document.querySelectorAll('input[name="script_types"]:checked').length;
             
@@ -488,12 +477,9 @@
             e.preventDefault();
             
             const productUrl = document.getElementById('shopify_url').value.trim();
-            const marketingAngle = document.getElementById('marketing_angle').value;
-            
-            // Récupère le format publicitaire
+            const marketingAngle = document.getElementById('marketing_angle').value.trim();
             const adFormat = document.querySelector('input[name="ad_format"]:checked').value;
             
-            // Récupère les types de scripts
             const scriptTypes = Array.from(
                 document.querySelectorAll('input[name="script_types"]:checked')
             ).map(cb => cb.value);
@@ -510,13 +496,13 @@
                 marketingAngle: marketingAngle,
                 scriptTypes: scriptTypes,
                 scriptCount: scriptCount,
-                adFormat: adFormat  // NOUVEAU
+                adFormat: adFormat
             };
             
             console.log('📤 Données envoyées au webhook:', data);
             
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Génération en cours...';
+            submitBtn.innerHTML = '<span class="btn-icon">⏳</span> Génération en cours...';
             showStatus('⏳ Analyse en cours... Cela peut prendre 30-60 secondes.', 'loading');
             
             try {
