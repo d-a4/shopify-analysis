@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de Scripts Vidéo - Shopify</title>
+    <title>ProductStory AI - Générateur de Scripts</title>
     <style>
         * {
             margin: 0;
@@ -12,147 +12,97 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
 
-        header {
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px 30px;
             text-align: center;
         }
 
-        header h1 {
-            font-size: 2.5rem;
+        .header h1 {
+            font-size: 32px;
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
+        .header p {
             opacity: 0.9;
+            font-size: 16px;
         }
 
-        form {
+        .form-container {
             padding: 40px 30px;
         }
 
         .form-group {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
+            margin-bottom: 8px;
             font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
             color: #333;
+            font-size: 14px;
         }
 
-        .label-icon {
-            margin-right: 8px;
+        .required {
+            color: #e74c3c;
+            margin-left: 3px;
         }
 
-        input[type="url"],
         input[type="text"],
+        input[type="url"],
+        input[type="number"],
         select {
             width: 100%;
-            padding: 12px 16px;
-            font-size: 1rem;
+            padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
         }
 
-        input[type="url"]:focus,
         input[type="text"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
         select:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        small {
-            display: block;
-            margin-top: 8px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .radio-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-item:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-
-        .radio-item input[type="radio"] {
-            margin-right: 12px;
-            margin-top: 2px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .radio-label {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .radio-label strong {
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .radio-label small {
-            margin-top: 0;
-            font-size: 0.85rem;
-        }
-
-        .checkbox-grid {
+        .checkbox-group {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .checkbox-item {
             display: flex;
-            align-items: flex-start;
-            padding: 15px;
+            align-items: center;
+            padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         .checkbox-item:hover {
@@ -161,292 +111,366 @@
         }
 
         .checkbox-item input[type="checkbox"] {
-            margin-right: 12px;
-            margin-top: 2px;
+            margin-right: 8px;
             width: 18px;
             height: 18px;
             cursor: pointer;
         }
 
-        .checkbox-item input[type="checkbox"]:checked {
-            accent-color: #667eea;
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
         }
 
-        .checkbox-label {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
         }
 
-        .checkbox-label strong {
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .checkbox-label small {
-            margin-top: 0;
-            font-size: 0.85rem;
+        .label-icon {
+            margin-right: 8px;
         }
 
         #script-count {
             font-weight: 600;
-            color: #667eea;
+            color: #999;
             margin-top: 15px;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
+        .inspiration-link {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            margin-top: 10px;
         }
 
-        .submit-btn:hover {
+        .inspiration-link p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .submit-btn:active {
+        .btn-submit:active {
             transform: translateY(0);
         }
 
-        .submit-btn:disabled {
-            opacity: 0.6;
+        .btn-submit:disabled {
+            background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
-        .btn-icon {
-            font-size: 1.3rem;
-        }
-
-        .status-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
+        .loading {
             display: none;
+            text-align: center;
+            padding: 40px;
         }
 
-        .status-message.show {
+        .loading.active {
             display: block;
         }
 
-        .status-message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
-        .status-message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .status-message.loading {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
+        .result {
+            display: none;
+            padding: 30px;
+            background: #f9f9f9;
+            border-top: 3px solid #667eea;
         }
 
-        footer {
-            background: #f8f9fa;
-            padding: 20px 30px;
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #e0e0e0;
+        .result.active {
+            display: block;
+        }
+
+        .result h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .result pre {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid #e0e0e0;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .error {
+            background: #fee;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 8px;
+            color: #c0392b;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 8px;
+            color: #2e7d32;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success.active {
+            display: block;
         }
 
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
+            .container {
+                border-radius: 0;
             }
             
-            .checkbox-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            form {
+            .header {
                 padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🎬 Générateur de Scripts Vidéo</h1>
-            <p class="subtitle">Analyse de produits Shopify avec IA</p>
-        </header>
+        <div class="header">
+            <h1>🎬 ProductStory AI</h1>
+            <p>Générateur de scripts publicitaires professionnels pour Shopify</p>
+        </div>
 
-        <form id="analysis-form">
-            <div class="form-group">
-                <label for="shopify_url">
-                    <span class="label-icon">🔗</span>
-                    URL du produit Shopify
-                </label>
-                <input 
-                    type="url" 
-                    id="shopify_url" 
-                    name="shopify_url"
-                    placeholder="https://example.myshopify.com/products/nom-produit"
-                    required
-                >
-                <small>Copiez l'URL complète du produit depuis votre boutique Shopify</small>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <span class="label-icon">🎨</span>
-                    Format publicitaire
-                </label>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="ad_format" value="video" checked>
-                        <span class="radio-label">
-                            <strong>📹 Vidéo</strong>
-                            <small>Script pour publicité vidéo (TikTok, Reels, YouTube)</small>
-                        </span>
+        <div class="form-container">
+            <form id="scriptForm">
+                <!-- URL du produit -->
+                <div class="form-group">
+                    <label for="productUrl">
+                        <span class="label-icon">🔗</span>
+                        URL du produit Shopify
+                        <span class="required">*</span>
                     </label>
-
-                    <label class="radio-item">
-                        <input type="radio" name="ad_format" value="image">
-                        <span class="radio-label">
-                            <strong>📸 Image statique</strong>
-                            <small>Texte pour publicité image (Facebook, Instagram)</small>
-                        </span>
-                    </label>
+                    <input 
+                        type="url" 
+                        id="productUrl" 
+                        name="productUrl" 
+                        placeholder="https://votreboutique.com/products/nom-du-produit"
+                        required
+                    >
+                    <div class="help-text">L'URL complète de la page produit à analyser</div>
                 </div>
-                <small>Choisissez le format de votre publicité</small>
-            </div>
 
-            <div class="form-group">
-                <label for="marketing_angle">
-                    <span class="label-icon">🎯</span>
-                    Angle marketing personnalisé
-                </label>
-                <input 
-                    type="text" 
-                    id="marketing_angle" 
-                    name="marketing_angle"
-                    placeholder="Ex: Soulager l'arthrose du genou sans chirurgie"
-                    required
-                    maxlength="200"
-                >
-                <small>Décrivez l'angle marketing spécifique que vous souhaitez (max 200 caractères)</small>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <span class="label-icon">📝</span>
-                    Types de scripts (cochez 1 à 8)
-                </label>
-                <div class="checkbox-grid">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="ugc">
-                        <span class="checkbox-label">
-                            <strong>UGC</strong>
-                            <small>User-Generated Content - Authentique et personnel</small>
-                        </span>
+                <!-- Angle marketing personnalisé -->
+                <div class="form-group">
+                    <label for="marketingAngle">
+                        <span class="label-icon">🎯</span>
+                        Angle marketing personnalisé
+                        <span class="required">*</span>
                     </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="educational">
-                        <span class="checkbox-label">
-                            <strong>Éducationnel</strong>
-                            <small>Informatif et pédagogique</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="promotional">
-                        <span class="checkbox-label">
-                            <strong>Promotionnel</strong>
-                            <small>Orienté vente et conversion</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="testimonial">
-                        <span class="checkbox-label">
-                            <strong>Témoignage</strong>
-                            <small>Transformation personnelle</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="unboxing">
-                        <span class="checkbox-label">
-                            <strong>Unboxing</strong>
-                            <small>Découverte excitée du produit</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="tutorial">
-                        <span class="checkbox-label">
-                            <strong>Tutoriel</strong>
-                            <small>Guide pratique étape par étape</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="comparison">
-                        <span class="checkbox-label">
-                            <strong>Comparatif</strong>
-                            <small>Vs alternatives/concurrents</small>
-                        </span>
-                    </label>
-
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="script_types" value="story">
-                        <span class="checkbox-label">
-                            <strong>Story</strong>
-                            <small>Narrative émotionnelle</small>
-                        </span>
-                    </label>
+                    <input 
+                        type="text" 
+                        id="marketingAngle" 
+                        name="marketingAngle"
+                        placeholder="Ex: Soulager l'arthrose du genou sans chirurgie"
+                        required
+                        maxlength="200"
+                    >
+                    <div class="help-text">Décrivez l'angle marketing spécifique que vous souhaitez (max 200 caractères)</div>
                 </div>
-                <small id="script-count">Aucun script sélectionné</small>
+
+                <!-- NOUVEAU: Lien d'inspiration visuelle -->
+                <div class="form-group">
+                    <label for="inspirationLink">
+                        <span class="label-icon">🎨</span>
+                        Lien d'inspiration visuelle (optionnel)
+                    </label>
+                    <input 
+                        type="url" 
+                        id="inspirationLink" 
+                        name="inspirationLink" 
+                        placeholder="https://www.tiktok.com/@user/video/123456789 ou https://www.instagram.com/reel/..."
+                    >
+                    <div class="inspiration-link">
+                        <p><strong>💡 Comment l'utiliser :</strong></p>
+                        <p>Collez un lien TikTok, Instagram Reel, ou YouTube Shorts qui représente le style visuel que vous voulez reproduire. Ce lien sera inclus dans le script final pour guider l'éditeur vidéo.</p>
+                    </div>
+                </div>
+
+                <!-- Types de scripts -->
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">📝</span>
+                        Types de scripts (cochez 1 à 8)
+                        <span class="required">*</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ugc" name="scriptTypes" value="ugc">
+                            <label for="ugc">
+                                <strong>UGC</strong>
+                                <small>User-Generated Content - Authentique et personnel</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="promotional" name="scriptTypes" value="promotional">
+                            <label for="promotional">
+                                <strong>Promotionnel</strong>
+                                <small>Orienté vente et conversion</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="educational" name="scriptTypes" value="educational">
+                            <label for="educational">
+                                <strong>Éducationnel</strong>
+                                <small>Informatif et pédagogique</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="testimonial" name="scriptTypes" value="testimonial">
+                            <label for="testimonial">
+                                <strong>Témoignage</strong>
+                                <small>Transformation personnelle</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="comparison" name="scriptTypes" value="comparison">
+                            <label for="comparison">
+                                <strong>Comparatif</strong>
+                                <small>Vs alternatives/concurrents</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="unboxing" name="scriptTypes" value="unboxing">
+                            <label for="unboxing">
+                                <strong>Unboxing</strong>
+                                <small>Découverte excitée du produit</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tutorial" name="scriptTypes" value="tutorial">
+                            <label for="tutorial">
+                                <strong>Tutoriel</strong>
+                                <small>Guide pratique étape par étape</small>
+                            </label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="story" name="scriptTypes" value="story">
+                            <label for="story">
+                                <strong>Story</strong>
+                                <small>Narrative émotionnelle</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="help-text" id="script-count">Aucun script sélectionné</div>
+                </div>
+
+                <!-- Format publicitaire -->
+                <div class="form-group">
+                    <label for="adFormat">
+                        Format publicitaire
+                        <span class="required">*</span>
+                    </label>
+                    <select id="adFormat" name="adFormat" required>
+                        <option value="video">Vidéo (TikTok/Reels/Shorts)</option>
+                        <option value="image">Image statique</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    🚀 Générer les scripts
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyse du produit en cours...</p>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    Cela peut prendre 30-60 secondes
+                </p>
             </div>
 
-            <button type="submit" id="submit-btn" class="submit-btn">
-                <span class="btn-icon">🚀</span>
-                Générer les scripts
-            </button>
+            <div class="error" id="error"></div>
+            <div class="success" id="success"></div>
 
-            <div id="status-message" class="status-message"></div>
-        </form>
-
-        <footer>
-            <p>Propulsé par N8N + Claude AI</p>
-        </footer>
+            <div class="result" id="result">
+                <h3>📄 Scripts générés</h3>
+                <pre id="resultContent"></pre>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ✅ TON WEBHOOK URL (DÉJÀ CONFIGURÉ)
+        const form = document.getElementById('scriptForm');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const resultContent = document.getElementById('resultContent');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+        const submitBtn = document.getElementById('submitBtn');
+        const checkboxes = document.querySelectorAll('input[name="scriptTypes"]');
+        const scriptCountDisplay = document.getElementById('script-count');
+
+        // URL de ton webhook N8N (à remplacer par ton vrai URL)
         const WEBHOOK_URL = 'https://c4sh.app.n8n.cloud/webhook/shopify-analysis';
 
-        const form = document.getElementById('analysis-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const statusMessage = document.getElementById('status-message');
-        const scriptCountDisplay = document.getElementById('script-count');
-        const checkboxes = document.querySelectorAll('input[name="script_types"]');
-
+        // Mise à jour du compteur de scripts
         function updateScriptCount() {
-            const checkedCount = document.querySelectorAll('input[name="script_types"]:checked').length;
+            const checkedCount = document.querySelectorAll('input[name="scriptTypes"]:checked').length;
             
             if (checkedCount === 0) {
                 scriptCountDisplay.textContent = 'Aucun script sélectionné';
@@ -464,79 +488,84 @@
             checkbox.addEventListener('change', updateScriptCount);
         });
 
-        function showStatus(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message show ' + type;
-        }
-
-        function hideStatus() {
-            statusMessage.className = 'status-message';
-        }
+        updateScriptCount();
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const productUrl = document.getElementById('shopify_url').value.trim();
-            const marketingAngle = document.getElementById('marketing_angle').value.trim();
-            const adFormat = document.querySelector('input[name="ad_format"]:checked').value;
-            
-            const scriptTypes = Array.from(
-                document.querySelectorAll('input[name="script_types"]:checked')
+
+            // Récupérer les types de scripts sélectionnés
+            const selectedScriptTypes = Array.from(
+                document.querySelectorAll('input[name="scriptTypes"]:checked')
             ).map(cb => cb.value);
-            
-            if (scriptTypes.length === 0) {
-                showStatus('❌ Veuillez sélectionner au moins 1 type de script', 'error');
+
+            if (selectedScriptTypes.length === 0) {
+                showError('Veuillez sélectionner au moins un type de script');
                 return;
             }
-            
-            const scriptCount = scriptTypes.length;
-            
-            const data = {
-                productUrl: productUrl,
-                marketingAngle: marketingAngle,
-                scriptTypes: scriptTypes,
-                scriptCount: scriptCount,
-                adFormat: adFormat
+
+            // Préparer les données
+            const formData = {
+                productUrl: document.getElementById('productUrl').value,
+                inspirationLink: document.getElementById('inspirationLink').value || null,
+                marketingAngle: document.getElementById('marketingAngle').value,
+                scriptTypes: selectedScriptTypes.join(','),
+                adFormat: document.getElementById('adFormat').value
             };
-            
-            console.log('📤 Données envoyées au webhook:', data);
-            
+
+            // Afficher le loading
+            loading.classList.add('active');
+            result.classList.remove('active');
+            errorDiv.classList.remove('active');
+            successDiv.classList.remove('active');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="btn-icon">⏳</span> Génération en cours...';
-            showStatus('⏳ Analyse en cours... Cela peut prendre 30-60 secondes.', 'loading');
-            
+
             try {
+                // Envoyer la requête au webhook N8N
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(formData)
                 });
-                
-                if (response.ok) {
-                    showStatus('✅ Scripts générés avec succès! Consultez votre email.', 'success');
-                    console.log('✅ Réponse du webhook:', await response.text());
-                    
-                    setTimeout(() => {
-                        form.reset();
-                        updateScriptCount();
-                        hideStatus();
-                    }, 3000);
-                } else {
+
+                if (!response.ok) {
                     throw new Error(`Erreur HTTP: ${response.status}`);
                 }
+
+                const data = await response.json();
+
+                // Afficher le résultat
+                loading.classList.remove('active');
+                result.classList.add('active');
+                resultContent.textContent = JSON.stringify(data, null, 2);
                 
+                showSuccess('Scripts générés avec succès! 🎉');
+
             } catch (error) {
-                console.error('❌ Erreur:', error);
-                showStatus('❌ Erreur lors de la génération. Veuillez réessayer.', 'error');
+                loading.classList.remove('active');
+                showError(`Erreur: ${error.message}`);
+                console.error('Erreur:', error);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span class="btn-icon">🚀</span> Générer les scripts';
             }
         });
 
-        updateScriptCount();
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.classList.add('active');
+            setTimeout(() => {
+                errorDiv.classList.remove('active');
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            successDiv.textContent = message;
+            successDiv.classList.add('active');
+            setTimeout(() => {
+                successDiv.classList.remove('active');
+            }, 5000);
+        }
     </script>
 </body>
 </html>
