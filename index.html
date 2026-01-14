@@ -32,6 +32,30 @@
             color: white;
             padding: 40px 30px;
             text-align: center;
+            position: relative;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         .header h1 {
@@ -43,6 +67,188 @@
         .header p {
             opacity: 0.9;
             font-size: 16px;
+        }
+
+        .config-status {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .config-status.configured {
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        .config-status.not-configured {
+            background: rgba(244, 67, 54, 0.3);
+        }
+
+        /* Modal Settings */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .webhook-config {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .webhook-config h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .webhook-config input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: monospace;
+            transition: all 0.3s;
+        }
+
+        .webhook-config input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .webhook-help {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .webhook-help strong {
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .webhook-help code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-save, .btn-cancel {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
         }
 
         .form-container {
@@ -274,6 +480,11 @@
             .header {
                 padding: 30px 20px;
             }
+
+            .settings-btn {
+                position: static;
+                margin: 15px auto 0;
+            }
             
             .header h1 {
                 font-size: 24px;
@@ -286,14 +497,24 @@
             .checkbox-group {
                 grid-template-columns: 1fr;
             }
+
+            .modal-content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <button class="settings-btn" onclick="openSettings()">
+                ⚙️ Configuration
+            </button>
             <h1>🎬 ProductStory AI</h1>
             <p>Générateur de scripts publicitaires professionnels pour Shopify</p>
+            <div class="config-status" id="configStatus">
+                ⚠️ Configuration requise
+            </div>
         </div>
 
         <div class="form-container">
@@ -333,7 +554,7 @@
                     <div class="help-text">Décrivez l'angle marketing spécifique que vous souhaitez (max 200 caractères)</div>
                 </div>
 
-                <!-- NOUVEAU: Lien d'inspiration visuelle -->
+                <!-- Lien d'inspiration visuelle -->
                 <div class="form-group">
                     <label for="inspirationLink">
                         <span class="label-icon">🎨</span>
@@ -454,6 +675,41 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Configuration</h2>
+                <button class="close-btn" onclick="closeSettings()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="webhook-config">
+                    <h3>🔗 N8N Webhook URL</h3>
+                    <input 
+                        type="url" 
+                        id="webhookUrl" 
+                        placeholder="https://your-instance.app.n8n.cloud/webhook/shopify-analysis"
+                    >
+                    <div class="webhook-help">
+                        <strong>📋 Where to find your Webhook URL:</strong>
+                        <ol style="margin: 10px 0; padding-left: 20px;">
+                            <li>Open your N8N workflow</li>
+                            <li>Click on the "Webhook Shopify URL" node</li>
+                            <li>Click "Test workflow" at the top</li>
+                            <li>Copy the Production URL that appears</li>
+                        </ol>
+                        <strong>✅ Format example:</strong><br>
+                        <code>https://your-name.app.n8n.cloud/webhook/shopify-analysis</code>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeSettings()">Annuler</button>
+                <button class="btn-save" onclick="saveWebhookUrl()">💾 Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const form = document.getElementById('scriptForm');
         const loading = document.getElementById('loading');
@@ -464,11 +720,71 @@
         const submitBtn = document.getElementById('submitBtn');
         const checkboxes = document.querySelectorAll('input[name="scriptTypes"]');
         const scriptCountDisplay = document.getElementById('script-count');
+        const settingsModal = document.getElementById('settingsModal');
+        const webhookUrlInput = document.getElementById('webhookUrl');
+        const configStatus = document.getElementById('configStatus');
 
-        // URL de ton webhook N8N (à remplacer par ton vrai URL)
-        const WEBHOOK_URL = 'https://c4sh.app.n8n.cloud/webhook/shopify-analysis';
+        // Load webhook URL from localStorage on page load
+        function loadWebhookUrl() {
+            const savedUrl = localStorage.getItem('webhookUrl');
+            if (savedUrl) {
+                webhookUrlInput.value = savedUrl;
+                updateConfigStatus(true);
+            } else {
+                updateConfigStatus(false);
+            }
+        }
 
-        // Mise à jour du compteur de scripts
+        // Update configuration status indicator
+        function updateConfigStatus(isConfigured) {
+            if (isConfigured) {
+                configStatus.textContent = '✅ Configuré';
+                configStatus.className = 'config-status configured';
+            } else {
+                configStatus.textContent = '⚠️ Configuration requise';
+                configStatus.className = 'config-status not-configured';
+            }
+        }
+
+        // Open settings modal
+        function openSettings() {
+            settingsModal.classList.add('active');
+        }
+
+        // Close settings modal
+        function closeSettings() {
+            settingsModal.classList.remove('active');
+        }
+
+        // Save webhook URL to localStorage
+        function saveWebhookUrl() {
+            const url = webhookUrlInput.value.trim();
+            
+            if (!url) {
+                alert('⚠️ Veuillez entrer une URL de webhook valide');
+                return;
+            }
+
+            // Basic URL validation
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                alert('⚠️ L\'URL doit commencer par http:// ou https://');
+                return;
+            }
+
+            localStorage.setItem('webhookUrl', url);
+            updateConfigStatus(true);
+            closeSettings();
+            showSuccess('✅ Configuration enregistrée avec succès!');
+        }
+
+        // Close modal when clicking outside
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                closeSettings();
+            }
+        });
+
+        // Update script count
         function updateScriptCount() {
             const checkedCount = document.querySelectorAll('input[name="scriptTypes"]:checked').length;
             
@@ -488,12 +804,20 @@
             checkbox.addEventListener('change', updateScriptCount);
         });
 
-        updateScriptCount();
-
+        // Form submission
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Récupérer les types de scripts sélectionnés
+            // Check if webhook URL is configured
+            const WEBHOOK_URL = localStorage.getItem('webhookUrl');
+            
+            if (!WEBHOOK_URL) {
+                showError('⚠️ Veuillez configurer votre Webhook URL dans les paramètres');
+                openSettings();
+                return;
+            }
+
+            // Get selected script types
             const selectedScriptTypes = Array.from(
                 document.querySelectorAll('input[name="scriptTypes"]:checked')
             ).map(cb => cb.value);
@@ -503,7 +827,7 @@
                 return;
             }
 
-            // Préparer les données
+            // Prepare form data
             const formData = {
                 productUrl: document.getElementById('productUrl').value,
                 inspirationLink: document.getElementById('inspirationLink').value || null,
@@ -512,7 +836,7 @@
                 adFormat: document.getElementById('adFormat').value
             };
 
-            // Afficher le loading
+            // Show loading
             loading.classList.add('active');
             result.classList.remove('active');
             errorDiv.classList.remove('active');
@@ -520,7 +844,7 @@
             submitBtn.disabled = true;
 
             try {
-                // Envoyer la requête au webhook N8N
+                // Send request to N8N webhook
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
@@ -535,16 +859,16 @@
 
                 const data = await response.json();
 
-                // Afficher le résultat
+                // Show result
                 loading.classList.remove('active');
                 result.classList.add('active');
                 resultContent.textContent = JSON.stringify(data, null, 2);
                 
-                showSuccess('Scripts générés avec succès! 🎉');
+                showSuccess('Scripts générés avec succès! Vérifiez votre email. 🎉');
 
             } catch (error) {
                 loading.classList.remove('active');
-                showError(`Erreur: ${error.message}`);
+                showError(`Erreur: ${error.message}. Vérifiez votre URL webhook dans les paramètres.`);
                 console.error('Erreur:', error);
             } finally {
                 submitBtn.disabled = false;
@@ -556,7 +880,7 @@
             errorDiv.classList.add('active');
             setTimeout(() => {
                 errorDiv.classList.remove('active');
-            }, 5000);
+            }, 8000);
         }
 
         function showSuccess(message) {
@@ -566,6 +890,10 @@
                 successDiv.classList.remove('active');
             }, 5000);
         }
+
+        // Initialize
+        loadWebhookUrl();
+        updateScriptCount();
     </script>
 </body>
 </html>
